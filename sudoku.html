@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<HTML>
+<head>
+    <title> Sudoku </title>
+    <link href="style.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>  
+    <div id="light" class="white_content"> 
+        <div class="close"> <a href="javascript:void(0)" onclick="ClosePopup()"> Close </a> </div>
+
+        <div id="possible"> </div>
+    </div>
+    <div id="fade" class="black_overlay"> </div>
+
+    <div id="menu"> 
+        <button onclick="newBoard()"> NEW </button>
+        <!--
+        <button> UNDO </button>
+        <button> REDO </button> 
+        -->
+    </div>
+
+    <div id="board"> </div>
+    
+    <script>
+        class Board {
+            constructor() { 
+                this.boxes = [];
+                this.createBoxes(9);
+            }
+
+            createBoxes(numOfBoxes) {
+                for (let i = 0; i < numOfBoxes; i++) {
+                    this.boxes.push(new Box());
+                }
+            }
+
+            getBoxes() { return this.boxes; }
+        }
+
+
+        class Box {
+            constructor() {
+                this.squares = [];
+                this.createSquares(9);
+            }
+
+            createSquares(numOfSquares) {
+                for (let i = 0; i < numOfSquares; i++) {
+                    this.squares.push(new Square());
+                }
+            }
+
+            getSquares() { return this.squares; }
+        }
+
+
+        class Square {
+            constructor() {
+                this.mini = [];
+                this.createMini(9);
+            }
+
+            createMini(numOfMinis) {
+                for (let i = 0; i < numOfMinis; i++) {
+                    this.mini.push(new Mini(i + 1));
+                }
+            }
+
+            getMini() { return this.mini; }
+        }
+
+
+        class Mini {
+            constructor(num) {
+                this.num = num;
+                this.isSelected = false;
+            }
+
+            getNum() { return this.num; }
+            getIsSelected() { return this.isSelected; }
+
+            setIsSelected(isSelected) { this.isSelected = isSelected; }
+        }
+
+
+        var board = new Board();
+        //board.getBoxes()[0].getSquares()[0].getMini()[0].setIsSelected(true);
+        //board.getBoxes()[0].getSquares()[0].getMini()[1].setIsSelected(true);
+
+        createBoard(9);
+        //loadSudoku();
+
+        function createBoard(numOfBoxes) {
+            var boxes = '';
+            
+            for (let i = 0; i < numOfBoxes; i++) {
+                boxes += createBox(i, 9);
+            }
+
+            document.getElementById('board').innerHTML = boxes;
+        }
+
+
+        function createBox(boxPos, numOfSquares) {
+            var squares = '';
+
+            for (let i = 0; i < numOfSquares; i++) {
+                squares += createSquare(boxPos, i, 9);
+            }
+
+            return '<div class="box"> \n' + squares + '</div> \n';
+        }
+    
+
+        function createSquare(boxPos, squarePos, numOfMiniSquares) {
+            var miniSquares = '';
+
+            for (let i = 0; i < numOfMiniSquares; i++) {
+                miniSquares += createMiniSquare();
+            }
+
+            return '<div class="square" onclick="OpenPopup(' + boxPos + ', ' + squarePos + ')"> \n <span> </span> \n ' + miniSquares + '</div> \n';
+        }
+
+
+        function createMiniSquare() {
+            return '<div class="miniSquare"> </div> \n';
+        }
+        
+
+        var box, square, miniSquares;
+        function OpenPopup(box, square) {
+            document.getElementById("light").style.display="block"; 
+            document.getElementById("fade").style.display="block";
+
+
+            this.box = box;
+            this.square = square;
+            this.miniSquares = board.getBoxes()[box].getSquares()[square].getMini();
+            var buttons = "";
+
+            for (let i = 0; i < this.miniSquares.length; i++) {
+                if (this.miniSquares[i].getIsSelected())
+                    buttons += '<button class="num enable" onclick="PossibleNumToggle(' + i + ')"> \n'; 
+                else 
+                    buttons += '<button class="num disable" onclick="PossibleNumToggle(' + i + ')"> \n';
+                        
+                buttons += this.miniSquares[i].getNum() + '\n </button> \n';
+            }
+
+            document.getElementById("possible").innerHTML = buttons;
+        }
+
+
+        function PossibleNumToggle(pos) {
+            var miniSquare = this.miniSquares[pos];
+            miniSquare.setIsSelected(!miniSquare.getIsSelected());
+
+            var num = document.getElementById("possible").getElementsByClassName("num")[pos];
+            
+            if (num.classList.contains("enable")) {
+                num.classList.remove("enable");
+                num.classList.add("disable");
+            }
+            else {
+                num.classList.remove("disable");
+                num.classList.add("enable");
+            }
+        }
+
+
+        function ClosePopup() {
+            document.getElementById('light').style.display='none'; 
+            document.getElementById('fade').style.display='none';
+            
+            setSquareValues();
+        }
+
+
+        function setSquareValues() {
+            var square = document.getElementsByClassName('box')[this.box].getElementsByClassName('square')[this.square].getElementsByTagName("span")[0];
+            var minis = document.getElementsByClassName('box')[this.box].getElementsByClassName('square')[this.square].getElementsByClassName('miniSquare');
+
+            // Find if more that one element selected
+            var multiple = true;
+            for (let i = 0; i < this.miniSquares.length; i++) {
+                if (this.miniSquares[i].getIsSelected()) {
+                    // False when first selected found
+                    if (multiple) {
+                        multiple = false;
+                        continue;
+                    }
+
+                    // True when second selected found
+                    multiple = true;
+                    break;
+                }
+            }
+            console.log(multiple);
+
+            square.innerHTML = "";
+            var pos = 0;
+            var end = this.miniSquares.length - 1;
+            for (let i = 0; i < this.miniSquares.length; i++) {
+                if (multiple) {
+                    if (this.miniSquares[i].getIsSelected())
+                        minis[pos++].innerHTML = this.miniSquares[i].getNum();
+                    else 
+                        minis[end--].innerHTML = "";
+                }
+                else {
+                    if (this.miniSquares[i].getIsSelected()) 
+                        square.innerHTML = this.miniSquares[i].getNum();
+
+                    minis[end--].innerHTML = "";
+                }
+            }
+        }
+
+
+        function newBoard() {
+            this.board = new Board();
+            loadSudoku();
+        }
+        
+
+        function loadSudoku() {
+            var boxes = this.board.getBoxes();
+            for (let i = 0; i < boxes.length; i++) {
+                this.box = i;
+                let squares = boxes[i].getSquares();
+                for (let j = 0; squares.length; j++) {
+                    this.square = j;
+                    this.miniSquares = squares[j].getMini();
+
+                    setSquareValues();
+                }
+            }
+        }
+    </script>
+</body>
+</HTML>
