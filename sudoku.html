@@ -14,7 +14,7 @@
     <div id="fade" class="black_overlay"> </div>
 
     <div id="menu"> 
-        <button onclick="newBoard()"> NEW </button>
+        <button onclick="newBoard();"> NEW </button>
         <!--
         <button> UNDO </button>
         <button> REDO </button> 
@@ -84,13 +84,42 @@
             setIsSelected(isSelected) { this.isSelected = isSelected; }
         }
 
-
         var board = new Board();
         //board.getBoxes()[0].getSquares()[0].getMini()[0].setIsSelected(true);
         //board.getBoxes()[0].getSquares()[0].getMini()[1].setIsSelected(true);
+        
 
         createBoard(9);
-        //loadSudoku();
+        loadStorage();
+
+        
+        function storeBoard() {
+            localStorage.setItem("board", JSON.stringify(this.board));
+        }
+
+        function loadStorage() {
+            let board = JSON.parse(localStorage.getItem("board"));
+            
+            if (board) {
+                console.log('enter');
+                let boxes = board['boxes'];
+
+                for (let i = 0; i < boxes.length; i++) {
+                    let squares = boxes[i]['squares'];
+
+                    for (let j = 0; j < squares.length; j++) {
+                        let miniSquares = squares[j]['mini'];
+                        
+                        for (let k = 0; k < miniSquares.length; k++) {
+                            this.board.getBoxes()[i].getSquares()[j].getMini()[k].setIsSelected(miniSquares[k]['isSelected']);
+                        }
+                    }
+                }
+                console.log(this.board);
+                loadSudoku();
+            }
+        }
+        
 
         function createBoard(numOfBoxes) {
             var boxes = '';
@@ -176,13 +205,14 @@
             document.getElementById('fade').style.display='none';
             
             setSquareValues();
+            storeBoard();
         }
 
 
         function setSquareValues() {
             var square = document.getElementsByClassName('box')[this.box].getElementsByClassName('square')[this.square].getElementsByTagName("span")[0];
             var minis = document.getElementsByClassName('box')[this.box].getElementsByClassName('square')[this.square].getElementsByClassName('miniSquare');
-
+            //console.log('miniSquares: ' + this.miniSquares[8]);
             // Find if more that one element selected
             var multiple = true;
             for (let i = 0; i < this.miniSquares.length; i++) {
@@ -198,7 +228,7 @@
                     break;
                 }
             }
-            console.log(multiple);
+            //console.log(multiple);
 
             square.innerHTML = "";
             var pos = 0;
@@ -221,19 +251,22 @@
 
 
         function newBoard() {
-            this.board = new Board();
-            loadSudoku();
+            localStorage.removeItem('board');
+            location.reload();
         }
         
 
         function loadSudoku() {
             var boxes = this.board.getBoxes();
+            console.log('squares: ' + boxes[0]);
+
             for (let i = 0; i < boxes.length; i++) {
                 this.box = i;
                 let squares = boxes[i].getSquares();
-                for (let j = 0; squares.length; j++) {
+
+                for (let j = 0; j < squares.length; j++) {
                     this.square = j;
-                    this.miniSquares = squares[j].getMini();
+                    this.miniSquares = boxes[i].getSquares()[j].getMini();
 
                     setSquareValues();
                 }
