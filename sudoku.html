@@ -6,33 +6,37 @@
 </head>
 
 <body>  
-    <div id="light" class="white_content"> 
-        <div class="close"> <a href="javascript:void(0)" onclick="ClosePopup()"> Close </a> </div>
+    <div id="popup"> 
+        <div class="close"> <a href="javascript:void(0)" onclick="ClosePopup();"> Close </a> </div>
 
         <div id="possible"> </div>
     </div>
-    <div id="fade" class="black_overlay"> </div>
+    <div id="shadow" onclick="ClosePopup();"> </div>
+
 
     <div id="menu"> 
-        <button onclick="newBoard();"> NEW </button>
+        <button onclick="newSudoku();"> NEW </button>
         <!--
         <button> UNDO </button>
         <button> REDO </button> 
         -->
     </div>
 
-    <div id="board"> </div>
+
+    <div id="sudoku"> </div>
     
+
     <script>
-        class Board {
-            constructor() { 
+        // Sudoku containing boxes
+        class Sudoku {
+            constructor(numOfBoxes) { 
                 this.boxes = [];
-                this.createBoxes(9);
+                this.createBoxes(numOfBoxes);
             }
 
             createBoxes(numOfBoxes) {
                 for (let i = 0; i < numOfBoxes; i++) {
-                    this.boxes.push(new Box());
+                    this.boxes.push(new Box(numOfBoxes));
                 }
             }
 
@@ -40,15 +44,16 @@
         }
 
 
+        // Box which makes up a sudoku, containing squares
         class Box {
-            constructor() {
+            constructor(numOfSquares) {
                 this.squares = [];
-                this.createSquares(9);
+                this.createSquares(numOfSquares);
             }
 
             createSquares(numOfSquares) {
                 for (let i = 0; i < numOfSquares; i++) {
-                    this.squares.push(new Square());
+                    this.squares.push(new Square(numOfSquares));
                 }
             }
 
@@ -56,23 +61,25 @@
         }
 
 
+        // Square which makes up a box, containing miniSquares
         class Square {
-            constructor() {
+            constructor(numOfMiniSquares) {
                 this.mini = [];
-                this.createMini(9);
+                this.createMiniSquares(numOfMiniSquares);
             }
 
-            createMini(numOfMinis) {
-                for (let i = 0; i < numOfMinis; i++) {
-                    this.mini.push(new Mini(i + 1));
+            createMiniSquares(numOfMiniSquares) {
+                for (let i = 0; i < numOfMiniSquares; i++) {
+                    this.mini.push(new MiniSquare(i + 1));
                 }
             }
 
-            getMini() { return this.mini; }
+            getMiniSquares() { return this.mini; }
         }
 
 
-        class Mini {
+        // MiniSquare which makes up a square
+        class MiniSquare {
             constructor(num) {
                 this.num = num;
                 this.isSelected = false;
@@ -84,56 +91,36 @@
             setIsSelected(isSelected) { this.isSelected = isSelected; }
         }
 
-        var board = new Board();
-        //board.getBoxes()[0].getSquares()[0].getMini()[0].setIsSelected(true);
-        //board.getBoxes()[0].getSquares()[0].getMini()[1].setIsSelected(true);
-        
 
-        createBoard(9);
-        loadStorage();
 
-        
-        function storeBoard() {
-            localStorage.setItem("board", JSON.stringify(this.board));
-        }
 
-        function loadStorage() {
-            let board = JSON.parse(localStorage.getItem("board"));
-            
-            if (board) {
-                console.log('enter');
-                let boxes = board['boxes'];
+        let numOfSquares = 9;
+        var sudoku = new Sudoku(numOfSquares);
 
-                for (let i = 0; i < boxes.length; i++) {
-                    let squares = boxes[i]['squares'];
+        // Create sudoku board
+        createSudoku(numOfSquares);
 
-                    for (let j = 0; j < squares.length; j++) {
-                        let miniSquares = squares[j]['mini'];
-                        
-                        for (let k = 0; k < miniSquares.length; k++) {
-                            this.board.getBoxes()[i].getSquares()[j].getMini()[k].setIsSelected(miniSquares[k]['isSelected']);
-                        }
-                    }
-                }
-                console.log(this.board);
-                loadSudoku();
-            }
-        }
-        
+        // Load any previously saved sudokus
+        loadSudoku();
 
-        function createBoard(numOfBoxes) {
-            var boxes = '';
+
+
+
+        // Generates the HTML for the sudoku
+        function createSudoku(numOfBoxes) {
+            let sudoku = '';
             
             for (let i = 0; i < numOfBoxes; i++) {
-                boxes += createBox(i, 9);
+                sudoku += createBox(i, 9);
             }
 
-            document.getElementById('board').innerHTML = boxes;
+            document.getElementById('sudoku').innerHTML = sudoku;
         }
 
 
+        // Generates the HTML for a box
         function createBox(boxPos, numOfSquares) {
-            var squares = '';
+            let squares = '';
 
             for (let i = 0; i < numOfSquares; i++) {
                 squares += createSquare(boxPos, i, 9);
@@ -143,8 +130,9 @@
         }
     
 
+        // Generates the HTML for a square
         function createSquare(boxPos, squarePos, numOfMiniSquares) {
-            var miniSquares = '';
+            let miniSquares = '';
 
             for (let i = 0; i < numOfMiniSquares; i++) {
                 miniSquares += createMiniSquare();
@@ -154,41 +142,55 @@
         }
 
 
+        // Generates the HTML for a mini square
         function createMiniSquare() {
             return '<div class="miniSquare"> </div> \n';
         }
         
 
+
+
         var box, square, miniSquares;
+
+        // Displays the popup and stores which square is selected
         function OpenPopup(box, square) {
-            document.getElementById("light").style.display="block"; 
-            document.getElementById("fade").style.display="block";
+            document.getElementById("popup").style.display = "block"; 
+            document.getElementById("shadow").style.display = "block";
 
 
+            // Store square info to save when popup closed 
             this.box = box;
             this.square = square;
-            this.miniSquares = board.getBoxes()[box].getSquares()[square].getMini();
-            var buttons = "";
+            this.miniSquares = this.sudoku.getBoxes()[this.box].getSquares()[this.square].getMiniSquares();
 
+            let buttons = '';
+
+            // Set if each button is enable or disable  
             for (let i = 0; i < this.miniSquares.length; i++) {
+                
                 if (this.miniSquares[i].getIsSelected())
                     buttons += '<button class="num enable" onclick="PossibleNumToggle(' + i + ')"> \n'; 
                 else 
                     buttons += '<button class="num disable" onclick="PossibleNumToggle(' + i + ')"> \n';
-                        
+                
                 buttons += this.miniSquares[i].getNum() + '\n </button> \n';
             }
+
 
             document.getElementById("possible").innerHTML = buttons;
         }
 
 
+        // Toggles possible number's selected status
         function PossibleNumToggle(pos) {
-            var miniSquare = this.miniSquares[pos];
+            // Toggle mini square's selected value
+            let miniSquare = this.miniSquares[pos];
             miniSquare.setIsSelected(!miniSquare.getIsSelected());
 
-            var num = document.getElementById("possible").getElementsByClassName("num")[pos];
+
+            let num = document.getElementById("possible").getElementsByClassName("num")[pos];
             
+            // Toggles selected status
             if (num.classList.contains("enable")) {
                 num.classList.remove("enable");
                 num.classList.add("disable");
@@ -200,25 +202,34 @@
         }
 
 
+        // Saves the sudoku's status and closes the popup
         function ClosePopup() {
-            document.getElementById('light').style.display='none'; 
-            document.getElementById('fade').style.display='none';
+            document.getElementById('popup').style.display='none'; 
+            document.getElementById('shadow').style.display='none';
             
-            setSquareValues();
-            storeBoard();
+            setSquareNums();
+            saveSudoku();
         }
 
 
-        function setSquareValues() {
-            var square = document.getElementsByClassName('box')[this.box].getElementsByClassName('square')[this.square].getElementsByTagName("span")[0];
-            var minis = document.getElementsByClassName('box')[this.box].getElementsByClassName('square')[this.square].getElementsByClassName('miniSquare');
-            //console.log('miniSquares: ' + this.miniSquares[8]);
+        // Prints the numbers into the selected square
+        function setSquareNums() {
+            let square = document.getElementsByClassName('box')[this.box].getElementsByClassName('square')[this.square];
+            let squareNum = square.getElementsByTagName("span")[0];
+            let miniSquares = square.getElementsByClassName('miniSquare');
+            
+
+            let none = true;
+            let multiple = true;
+
             // Find if more that one element selected
-            var multiple = true;
             for (let i = 0; i < this.miniSquares.length; i++) {
+                
                 if (this.miniSquares[i].getIsSelected()) {
+                    
                     // False when first selected found
                     if (multiple) {
+                        none = false;
                         multiple = false;
                         continue;
                     }
@@ -228,47 +239,93 @@
                     break;
                 }
             }
-            //console.log(multiple);
 
-            square.innerHTML = "";
-            var pos = 0;
-            var end = this.miniSquares.length - 1;
-            for (let i = 0; i < this.miniSquares.length; i++) {
-                if (multiple) {
-                    if (this.miniSquares[i].getIsSelected())
-                        minis[pos++].innerHTML = this.miniSquares[i].getNum();
-                    else 
-                        minis[end--].innerHTML = "";
-                }
-                else {
-                    if (this.miniSquares[i].getIsSelected()) 
-                        square.innerHTML = this.miniSquares[i].getNum();
 
-                    minis[end--].innerHTML = "";
+            // When box has some numbers set
+            if (!none) {
+
+                squareNum.innerHTML = '';
+                let pos = 0;
+                let end = this.miniSquares.length - 1;
+
+                // Display the numbers which are selected 
+                for (let i = 0; i < this.miniSquares.length; i++) {
+
+                    if (multiple) {
+                        // Set selected number at the start and clear from the end 
+                        if (this.miniSquares[i].getIsSelected())
+                            miniSquares[pos++].innerHTML = this.miniSquares[i].getNum();
+                        else 
+                            miniSquares[end--].innerHTML = "";
+                    }
+                    else {
+                        // Display selected number
+                        if (this.miniSquares[i].getIsSelected()) 
+                            squareNum.innerHTML = this.miniSquares[i].getNum();
+
+                        // Clear any previous miniSquare numbers
+                        miniSquares[end--].innerHTML = "";
+                    }
                 }
             }
         }
 
 
-        function newBoard() {
+
+
+        // Creates a new blank sudoku 
+        function newSudoku() {
             localStorage.removeItem('board');
             location.reload();
         }
         
 
-        function loadSudoku() {
-            var boxes = this.board.getBoxes();
-            console.log('squares: ' + boxes[0]);
+        // Saves sudoku's current status
+        function saveSudoku() {
+            localStorage.setItem("board", JSON.stringify(this.sudoku));
+        }
 
+
+        // Loads in a saved sudoku
+        function loadSudoku() {
+            let board = JSON.parse(localStorage.getItem("board"));
+            
+            // If a sudoku has been saved 
+            if (board) {
+                let boxes = board['boxes'];
+
+                for (let i = 0; i < boxes.length; i++) {
+                    let squares = boxes[i]['squares'];
+
+                    for (let j = 0; j < squares.length; j++) {
+                        let miniSquares = squares[j]['mini'];
+                        
+                        for (let k = 0; k < miniSquares.length; k++) {
+                            // Set sudoku values to what stored values are
+                            this.sudoku.getBoxes()[i].getSquares()[j].getMiniSquares()[k].setIsSelected(miniSquares[k]['isSelected']);
+                        }
+                    }
+                }
+                
+                updateSudoku();
+            }
+        }
+
+
+        // Updates current sudoku 
+        function updateSudoku() {
+            let boxes = this.sudoku.getBoxes();
+
+            // Runs through every square setting any numbers selected
             for (let i = 0; i < boxes.length; i++) {
                 this.box = i;
                 let squares = boxes[i].getSquares();
 
                 for (let j = 0; j < squares.length; j++) {
                     this.square = j;
-                    this.miniSquares = boxes[i].getSquares()[j].getMini();
+                    this.miniSquares = boxes[i].getSquares()[j].getMiniSquares();
 
-                    setSquareValues();
+                    setSquareNums();
                 }
             }
         }
