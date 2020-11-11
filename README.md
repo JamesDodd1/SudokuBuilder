@@ -30,7 +30,7 @@
 - Save current sudoku status locally on device
 
 
-![Blank 9x9 Sudoku](images/Sudoku_New.png width=100 height="100")
+![Blank 9x9 Sudoku](images/Sudoku_New.png height="100")
 
 ## 5. Status
 This project is complete
