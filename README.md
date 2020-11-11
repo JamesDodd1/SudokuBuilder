@@ -38,6 +38,7 @@ __Sudoku Board__
 New 9x9 sudoku (left) and ongoing sudoku with multiple numbers and possible mini numbers (right)
 
 <br />
+<br />
 
 __Square Value Selector__
 <p float="left">
