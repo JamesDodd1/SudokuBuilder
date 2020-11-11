@@ -29,7 +29,7 @@
 - Enter possible mini numbers into each square
 - Save current sudoku status locally on device
 
-<img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=100 height=100 />
+<img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=auto height=250 />
 
 
 ## 5. Status
