@@ -1,6 +1,6 @@
 # Sudoku Builder
 
-//
+A website to allow people to enter and complete sudokus.
 
 
 ## Table of Contents
@@ -13,10 +13,11 @@
 
 
 ## 1. General Info
+The website allows the user to enter the numbers and possible mini numbers into each square of the 9x9 sudoku board.  The data is saved locally on the device allowing each person to be able to complete each puzzle at their own pace.
 
 
 ## 2. Website
-[Sudoku Builder](sudokubuilder.epizy.com)
+Link: [Sudoku Builder](sudokubuilder.epizy.com)
 
 
 ## 3. Technologies
@@ -31,9 +32,9 @@
 
 __Sudoku Board__
 <p float="left">
-    <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
+    <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" height=300 width=auto />
     &nbsp; &nbsp; &nbsp;
-    <img src="./images/Sudoku_Ongoing.png" alt="9x9 Sudoku with multiple random numbers and multiple mini numbers in some squares" width=300 height=auto />
+    <img src="./images/Sudoku_Ongoing.png" alt="9x9 Sudoku with multiple random numbers and multiple mini numbers in some squares" height=300 width=auto />
 </p>
 New 9x9 sudoku (left) and ongoing sudoku with multiple numbers and possible mini numbers (right)
 
@@ -42,9 +43,9 @@ New 9x9 sudoku (left) and ongoing sudoku with multiple numbers and possible mini
 
 __Square Value Selector__
 <p float="left">
-    <img src="./images/Value_Selector_None.png" alt="Square value selector with nothing selected" width=300 height=auto />
+    <img src="./images/Value_Selector_None.png" alt="Square value selector with nothing selected" height=300 width=auto />
     &nbsp; &nbsp; &nbsp;
-    <img src="./images/Value_Selector_Multiple.png" alt="Square value selector with mulitple numbers selected" width=300 height=auto />
+    <img src="./images/Value_Selector_Multiple.png" alt="Square value selector with mulitple numbers selected" height=300 width=auto />
 </p>
 No numbers selected (left) and multiple numbers selected (right)
 
