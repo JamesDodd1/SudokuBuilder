@@ -33,10 +33,25 @@
 
 
 <p float="left">
-    <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=300 height=auto padding="100px" />
-    <img src="./images/Sudoku_Ongoing.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
-    <img src="./images/Value_Selector_None.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
-    <img src="./images/Value_Selector_Multiple.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
+    <div>
+        <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
+        New 9x9 sudoku
+    </div>
+    <div>
+        <img src="./images/Sudoku_Ongoing.png" alt="9x9 Sudoku with multiple random numbers and multiple mini numbers in some squares" width=300 height=auto />
+        Ongoing sudoku with multiple number and possible mini numbered entered
+    </div>
+</p>
+
+<p float="left">
+    <div>
+        <img src="./images/Value_Selector_None.png" alt="Square value selector with nothing selected" width=300 height=auto />
+        Square's value selector with nothing selected
+    </div>
+    <div>
+        <img src="./images/Value_Selector_Multiple.png" alt="Square value selector with mulitple numbers selected" width=300 height=auto />
+        Square's value selector with multiple possible numbers selected
+    </div>
 </p>
 
 ## 5. Status
