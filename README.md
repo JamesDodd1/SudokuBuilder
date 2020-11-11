@@ -30,6 +30,9 @@
 - Save current sudoku status locally on device
 
 <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
+<img src="./images/Sudoku_Ongoing.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
+<img src="./images/Value_Selector_None.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
+<img src="./images/Value_Selector_Multiple.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
 
 
 ## 5. Status
