@@ -32,16 +32,16 @@
 
 
 
-<p float="left">
-    <div>
+<div float="left">
+    <p>
         <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
         New 9x9 sudoku
-    </div>
-    <div>
+    </p>
+    <p>
         <img src="./images/Sudoku_Ongoing.png" alt="9x9 Sudoku with multiple random numbers and multiple mini numbers in some squares" width=300 height=auto />
         Ongoing sudoku with multiple number and possible mini numbered entered
-    </div>
-</p>
+    </p>
+</div>
 
 <p float="left">
     <div>
