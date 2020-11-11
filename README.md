@@ -33,7 +33,7 @@
 
 
 <p float="left">
-    <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=300 height=auto padding=10rem />
+    <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=300 height=auto padding="10rem" />
     <img src="./images/Sudoku_Ongoing.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
     <img src="./images/Value_Selector_None.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
     <img src="./images/Value_Selector_Multiple.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
