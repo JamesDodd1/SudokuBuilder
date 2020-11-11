@@ -29,30 +29,23 @@
 - Enter possible mini numbers into each square
 - Save current sudoku status locally on device
 
-
-abc | def | ghi
-
-<div float="left">
-    <p>
-        <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
-        New 9x9 sudoku
-    </p>
-    <p>
-        <img src="./images/Sudoku_Ongoing.png" alt="9x9 Sudoku with multiple random numbers and multiple mini numbers in some squares" width=300 height=auto />
-        Ongoing sudoku with multiple number and possible mini numbered entered
-    </p>
-</div>
-
+__Sudoku Board__
 <p float="left">
-    <div>
-        <img src="./images/Value_Selector_None.png" alt="Square value selector with nothing selected" width=300 height=auto />
-        Square's value selector with nothing selected
-    </div>
-    <div>
-        <img src="./images/Value_Selector_Multiple.png" alt="Square value selector with mulitple numbers selected" width=300 height=auto />
-        Square's value selector with multiple possible numbers selected
-    </div>
+    <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" width=300 height=auto />
+    &nbsp; &nbsp; &nbsp;
+    <img src="./images/Sudoku_Ongoing.png" alt="9x9 Sudoku with multiple random numbers and multiple mini numbers in some squares" width=300 height=auto />
 </p>
+New 9x9 sudoku (left) and ongoing sudoku with multiple numbers and possible mini numbers (right)
+
+
+__Square Value Selector__
+<p float="left">
+    <img src="./images/Value_Selector_None.png" alt="Square value selector with nothing selected" width=300 height=auto />
+    &nbsp; &nbsp; &nbsp;
+    <img src="./images/Value_Selector_Multiple.png" alt="Square value selector with mulitple numbers selected" width=300 height=auto />
+</p>
+No numbers selected (left) and multiple numbers selected (right)
+
 
 ## 5. Status
 This project is complete
