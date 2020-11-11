@@ -16,7 +16,7 @@
 
 
 ## 2. Website
-http://sudokubuilder.epizy.com/
+[Sudoku Builder](sudokubuilder.epizy.com)
 
 
 ## 3. Technologies
@@ -29,6 +29,8 @@ http://sudokubuilder.epizy.com/
 - Enter possible mini numbers into each square
 - Save current sudoku status locally on device
 
+
+![Blank 9x9 Sudoku](images/Sudoku - New.png)
 
 ## 5. Status
 This project is complete
