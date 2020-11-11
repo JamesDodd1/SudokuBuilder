@@ -26,9 +26,11 @@ Link: [Sudoku Builder](sudokubuilder.epizy.com)
 
 
 ## 4. Features
-- Enter numbers into each square
-- Enter possible mini numbers into each square
+- Click a square to display value selector popup
+- Enter a number into a square by selecting only one number from the Value Selector popup
+- Eneter mini numbers into a square by selecting multiple numbers from the Value Selector popup
 - Save current sudoku status locally on device
+- Create a brand new sudoku board by clicking the New button
 
 __Sudoku Board__
 <p float="left">
