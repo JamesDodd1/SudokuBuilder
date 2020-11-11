@@ -30,7 +30,7 @@
 - Save current sudoku status locally on device
 
 
-
+abc | def | ghi
 
 <div float="left">
     <p>
