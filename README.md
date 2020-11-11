@@ -38,6 +38,7 @@ __Sudoku Board__
 New 9x9 sudoku (left) and ongoing sudoku with multiple numbers and possible mini numbers (right)
 
 
+
 __Square Value Selector__
 <p float="left">
     <img src="./images/Value_Selector_None.png" alt="Square value selector with nothing selected" width=300 height=auto />
