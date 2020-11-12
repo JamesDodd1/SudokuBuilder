@@ -1,4 +1,2 @@
 # Set coding language to detect
-*.css linguist-detectable=false
-*.html linguist-detectable=false
 *.js linguist-detectable=true
