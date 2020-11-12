@@ -1,1 +1,2 @@
 # Set coding language to detect
+*.js linguist-detectable=true
