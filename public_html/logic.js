@@ -213,10 +213,13 @@ function setSquareNums() {
     }
 
 
+	// Clear square
+	squareNum.innerHTML = '';
+	
+		
     // When box has some numbers set
     if (!none) {
 
-        squareNum.innerHTML = '';
         let pos = 0;
         let end = this.miniSquares.length - 1;
 
