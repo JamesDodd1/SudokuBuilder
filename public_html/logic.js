@@ -191,7 +191,6 @@ function setSquareNums() {
     let miniSquares = square.getElementsByClassName('miniSquare');
     
 
-    let none = true;
     let multiple = true;
 
     // Find if more that one element selected
@@ -201,7 +200,6 @@ function setSquareNums() {
             
             // False when first selected found
             if (multiple) {
-                none = false;
                 multiple = false;
                 continue;
             }
@@ -212,37 +210,30 @@ function setSquareNums() {
         }
     }
 
-
-	// Clear square
-	squareNum.innerHTML = '';
 	
-		
-    // When box has some numbers set
-    if (!none) {
+	squareNum.innerHTML = ''; // Clear square
+	let pos = 0;
+	let end = this.miniSquares.length - 1;
 
-        let pos = 0;
-        let end = this.miniSquares.length - 1;
+	// Display the numbers which are selected 
+	for (let i = 0; i < this.miniSquares.length; i++) {
 
-        // Display the numbers which are selected 
-        for (let i = 0; i < this.miniSquares.length; i++) {
+		if (multiple) {
+			// Set selected number at the start and clear from the end 
+			if (this.miniSquares[i].getIsSelected())
+				miniSquares[pos++].innerHTML = this.miniSquares[i].getNum();
+			else 
+				miniSquares[end--].innerHTML = "";
+		}
+		else {
+			// Display selected number
+			if (this.miniSquares[i].getIsSelected()) 
+				squareNum.innerHTML = this.miniSquares[i].getNum();
 
-            if (multiple) {
-                // Set selected number at the start and clear from the end 
-                if (this.miniSquares[i].getIsSelected())
-                    miniSquares[pos++].innerHTML = this.miniSquares[i].getNum();
-                else 
-                    miniSquares[end--].innerHTML = "";
-            }
-            else {
-                // Display selected number
-                if (this.miniSquares[i].getIsSelected()) 
-                    squareNum.innerHTML = this.miniSquares[i].getNum();
-
-                // Clear any previous miniSquare numbers
-                miniSquares[end--].innerHTML = "";
-            }
-        }
-    }
+			// Clear any previous miniSquare numbers
+			miniSquares[end--].innerHTML = "";
+		}
+	}
 }
 
 
