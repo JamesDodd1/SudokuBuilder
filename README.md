@@ -17,7 +17,7 @@ The website allows the user to enter the numbers and possible mini numbers into 
 
 
 ## 2. Website
-Link: [Sudoku Builder](http://sudokubuilder.epizy.com/)
+__Link:__ [Sudoku Builder](http://sudokubuilder.epizy.com/)
 
 
 ## 3. Technologies
