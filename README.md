@@ -32,6 +32,12 @@ __Link:__ [Sudoku Builder](http://sudokubuilder.epizy.com/)
 - Save current sudoku status locally on device
 - Create a brand new sudoku board by clicking the New button
 
+
+### To do:
+- Undo/Redo buttons
+- Allow one mini number to be input
+
+
 __Sudoku Board__
 <p float="left">
     <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" height=300 width=auto />
@@ -53,7 +59,7 @@ No numbers selected (left) and multiple numbers selected (right)
 
 
 ## 5. Status
-This project is complete
+This project is ongoing.
 
 
 ## 6. Inspiration
