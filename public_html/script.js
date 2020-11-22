@@ -1,4 +1,3 @@
-
 // Sudoku containing boxes
 class Sudoku {
     constructor(numOfBoxes) { 
@@ -33,25 +32,29 @@ class Box {
 }
 
 
-// Square which makes up a box, containing miniSquares
+// Square which makes up a box, containing notes
 class Square {
-    constructor(numOfMiniSquares) {
-        this.mini = [];
-        this.createMiniSquares(numOfMiniSquares);
+    constructor(numOfNotes) {
+        this.num = 0;
+        this.notes = [];
+        this.createNotes(numOfNotes);
     }
 
-    createMiniSquares(numOfMiniSquares) {
-        for (let i = 0; i < numOfMiniSquares; i++) {
-            this.mini.push(new MiniSquare(i + 1));
+    createNotes(numOfNotes) {
+        for (let i = 0; i < numOfNotes; i++) {
+            this.notes.push(new Notes(i + 1));
         }
     }
 
-    getMiniSquares() { return this.mini; }
+    getNumber() { return this.num; }
+    getNotes() { return this.notes; }
+
+    setNumber(num) { this.num = num; }
 }
 
 
-// MiniSquare which makes up a square
-class MiniSquare {
+// Notes which makes up a square
+class Notes {
     constructor(num) {
         this.num = num;
         this.isSelected = false;
@@ -65,6 +68,7 @@ class MiniSquare {
 
 
 
+
 var sudoku;
 
 function create() {
@@ -73,12 +77,12 @@ function create() {
     
     // Create sudoku board
     createSudoku(numOfSquares);
+    createNumbers(numOfSquares);
+
     
     // Load any previously saved sudokus
     loadSudoku();
 }
-
-
 
 
 // Generates the HTML for the sudoku
@@ -106,26 +110,39 @@ function createBox(boxPos, numOfSquares) {
 
 
 // Generates the HTML for a square
-function createSquare(boxPos, squarePos, numOfMiniSquares) {
-    let miniSquares = '';
+function createSquare(boxPos, squarePos, numOfNotes) {
+    let notes = '';
 
-    for (let i = 0; i < numOfMiniSquares; i++) {
-        miniSquares += createMiniSquare();
+    for (let i = 0; i < numOfNotes; i++) {
+        notes += createNote();
     }
 
-    return '<div class="square" onclick="OpenPopup(' + boxPos + ', ' + squarePos + ')"> \n <span> </span> \n ' + miniSquares + '</div> \n';
+    return '<div class="square" onclick="OpenPopup(' + boxPos + ', ' + squarePos + ')"> \n <span> </span> \n ' + notes + '</div> \n';
 }
 
 
-// Generates the HTML for a mini square
-function createMiniSquare() {
-    return '<div class="miniSquare"> </div> \n';
+// Generates the HTML for a note
+function createNote() {
+    return '<div class="note"> </div> \n';
+}
+
+
+// Generates the HTML for popup numbers
+function createNumbers(numOfNumbers) {
+    let buttons = '';
+
+    // Set if each button is enable or disable  
+    for (let i = 0; i < numOfNumbers; i++) {
+        buttons += '<button class="num disable" onclick="PossibleNumToggle(' + i + ')"> ' + (i + 1) + ' </button> \n';
+    }
+
+    document.getElementById("numbers").innerHTML = buttons;
 }
 
 
 
 
-var box, square, miniSquares;
+var box, square, notes;
 
 // Displays the popup and stores which square is selected
 function OpenPopup(box, square) {
@@ -136,34 +153,42 @@ function OpenPopup(box, square) {
     // Store square info to save when popup closed 
     this.box = box;
     this.square = square;
-    this.miniSquares = this.sudoku.getBoxes()[this.box].getSquares()[this.square].getMiniSquares();
+    this.notes = this.sudoku.getBoxes()[this.box].getSquares()[this.square].getNotes();
 
-    let buttons = '';
+    setNumbers();
+}
+
+
+function setNumbers() {
+    let numbers = document.getElementById("numbers").getElementsByClassName("num");
 
     // Set if each button is enable or disable  
-    for (let i = 0; i < this.miniSquares.length; i++) {
-        
-        if (this.miniSquares[i].getIsSelected())
-            buttons += '<button class="num enable" onclick="PossibleNumToggle(' + i + ')"> \n'; 
-        else 
-            buttons += '<button class="num disable" onclick="PossibleNumToggle(' + i + ')"> \n';
-        
-        buttons += this.miniSquares[i].getNum() + '\n </button> \n';
+    for (let i = 0; i < numbers.length; i++) {
+
+        if (this.notes[i].getIsSelected()) {
+            if (numbers[i].classList.contains("disable")) {
+                numbers[i].classList.remove("disable");
+                numbers[i].classList.add("enable");
+            }
+        }
+        else {
+            if (numbers[i].classList.contains("enable")) {
+                numbers[i].classList.remove("enable");
+                numbers[i].classList.add("disable");
+            }
+        }
     }
-
-
-    document.getElementById("possible").innerHTML = buttons;
 }
 
 
 // Toggles possible number's selected status
 function PossibleNumToggle(pos) {
     // Toggle mini square's selected value
-    let miniSquare = this.miniSquares[pos];
-    miniSquare.setIsSelected(!miniSquare.getIsSelected());
+    let note = this.notes[pos];
+    note.setIsSelected(!note.getIsSelected());
 
 
-    let num = document.getElementById("possible").getElementsByClassName("num")[pos];
+    let num = document.getElementById("numbers").getElementsByClassName("num")[pos];
     
     // Toggles selected status
     if (num.classList.contains("enable")) {
@@ -191,15 +216,15 @@ function ClosePopup() {
 function setSquareNums() {
     let square = document.getElementsByClassName('box')[this.box].getElementsByClassName('square')[this.square];
     let squareNum = square.getElementsByTagName("span")[0];
-    let miniSquares = square.getElementsByClassName('miniSquare');
+    let notes = square.getElementsByClassName('note');
     
 
     let multiple = true;
 
     // Find if more that one element selected
-    for (let i = 0; i < this.miniSquares.length; i++) {
+    for (let i = 0; i < this.notes.length; i++) {
         
-        if (this.miniSquares[i].getIsSelected()) {
+        if (this.notes[i].getIsSelected()) {
             
             // False when first selected found
             if (multiple) {
@@ -216,25 +241,25 @@ function setSquareNums() {
 	
 	squareNum.innerHTML = ''; // Clear square
 	let pos = 0;
-	let end = this.miniSquares.length - 1;
+	let end = this.notes.length - 1;
 
 	// Display the numbers which are selected 
-	for (let i = 0; i < this.miniSquares.length; i++) {
+	for (let i = 0; i < this.notes.length; i++) {
 
 		if (multiple) {
 			// Set selected number at the start and clear from the end 
-			if (this.miniSquares[i].getIsSelected())
-				miniSquares[pos++].innerHTML = this.miniSquares[i].getNum();
+			if (this.notes[i].getIsSelected())
+                notes[pos++].innerHTML = this.notes[i].getNum();
 			else 
-				miniSquares[end--].innerHTML = "";
+                notes[end--].innerHTML = "";
 		}
 		else {
 			// Display selected number
-			if (this.miniSquares[i].getIsSelected()) 
-				squareNum.innerHTML = this.miniSquares[i].getNum();
+			if (this.notes[i].getIsSelected()) 
+				squareNum.innerHTML = this.notes[i].getNum();
 
-			// Clear any previous miniSquare numbers
-			miniSquares[end--].innerHTML = "";
+			// Clear any previous notes
+			notes[end--].innerHTML = "";
 		}
 	}
 }
@@ -267,11 +292,11 @@ function loadSudoku() {
             let squares = boxes[i]['squares'];
 
             for (let j = 0; j < squares.length; j++) {
-                let miniSquares = squares[j]['mini'];
+                let notes = squares[j]['notes'];
                 
-                for (let k = 0; k < miniSquares.length; k++) {
+                for (let k = 0; k < notes.length; k++) {
                     // Set sudoku values to what stored values are
-                    this.sudoku.getBoxes()[i].getSquares()[j].getMiniSquares()[k].setIsSelected(miniSquares[k]['isSelected']);
+                    this.sudoku.getBoxes()[i].getSquares()[j].getNotes()[k].setIsSelected(notes[k]['isSelected']);
                 }
             }
         }
@@ -292,7 +317,7 @@ function updateSudoku() {
 
         for (let j = 0; j < squares.length; j++) {
             this.square = j;
-            this.miniSquares = boxes[i].getSquares()[j].getMiniSquares();
+            this.notes = boxes[i].getSquares()[j].getNotes();
 
             setSquareNums();
         }
