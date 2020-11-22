@@ -65,15 +65,18 @@ class MiniSquare {
 
 
 
+var sudoku;
 
-let numOfSquares = 9;
-var sudoku = new Sudoku(numOfSquares);
-
-// Create sudoku board
-createSudoku(numOfSquares);
-
-// Load any previously saved sudokus
-loadSudoku();
+function create() {
+    let numOfSquares = 9;
+    sudoku = new Sudoku(numOfSquares);
+    
+    // Create sudoku board
+    createSudoku(numOfSquares);
+    
+    // Load any previously saved sudokus
+    loadSudoku();
+}
 
 
 
