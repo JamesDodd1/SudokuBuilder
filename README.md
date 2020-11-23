@@ -28,23 +28,23 @@ __Link:__ [Sudoku Builder](http://sudokubuilder.epizy.com/)
 ## 4. Features
 - Click a square to display value selector popup
 - Enter a number into a square by selecting only one number from the Value Selector popup
-- Eneter mini numbers into a square by selecting multiple numbers from the Value Selector popup
+- Enter note numbers into a square by selecting multiple numbers from the Value Selector popup
 - Save current sudoku status locally on device
 - Create a brand new sudoku board by clicking the New button
 
 
 ### To do:
 - Undo/Redo buttons
-- Allow one mini number to be input
+- Allow one note number to be input
 
 
 __Sudoku Board__
 <p float="left">
     <img src="./images/Sudoku_New.png" alt="Blank 9x9 Sudoku" height=300 width=auto />
     &nbsp; &nbsp; &nbsp;
-    <img src="./images/Sudoku_Ongoing.png" alt="9x9 Sudoku with multiple random numbers and multiple mini numbers in some squares" height=300 width=auto />
+    <img src="./images/Sudoku_Ongoing.png" alt="9x9 Sudoku with multiple random numbers and multiple note numbers in some squares" height=300 width=auto />
 </p>
-New 9x9 sudoku (left) and ongoing sudoku with multiple numbers and possible mini numbers (right)
+New 9x9 sudoku (left) and ongoing sudoku with multiple numbers and possible note numbers (right)
 
 <br />
 <br />
